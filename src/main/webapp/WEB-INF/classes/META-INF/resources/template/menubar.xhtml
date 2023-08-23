@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form>
+		<p:menubar rendered="true"
+			style="border: none; z-index: 9998; overflow: visible;">
+			<p:submenu label="Zdarzenia">
+				<p:menuitem value="Przegladaj" outcome="/index.xhtml"/>
+			</p:submenu>
+			
+			<p:submenu label="Pojazdy">
+				<p:menuitem value="Nowy pojazd" outcome="/system/newVehicle.xhtml"/>
+				<p:menuitem value="Przeglady pojazdow"
+					outcome="/system/allVehiclesView.xhtml"/>
+			</p:submenu>
+
+			<p:submenu label="Kierowcy">
+				<p:menuitem value="Nowy kierowca" outcome="/system/newDriverView.xhtml"/>
+				<p:menuitem value="Zarzadzaj kierowcami" outcome="/system/driversView.xhtml"/>
+				<p:menuitem value="Czas pracy" outcome="/system/workTimeView.xhtml"/>
+			</p:submenu>
+
+			<p:submenu label="Urządzenia">
+				<p:menuitem value="Lokalizatory" outcome="/system/gpsDevices.xhtml"/>
+			</p:submenu>
+
+			<p:submenu label="Trasy">
+				<p:menuitem value="Przegladaj" outcome="/system/routesView.xhtml"/>
+				<p:menuitem value="Tryb rzeczywisty" outcome="/system/realMapView.xhtml"/>
+			</p:submenu>
+
+			<p:submenu label="Paliwo">
+				<p:menuitem value="Dystrybutor" outcome="/system/distributorView.xhtml"/>
+				<p:menuitem value="Tankowania" outcome="/system/tanksView.xhtml"/>
+			</p:submenu>
+
+			<p:submenu label="Ustawienia" icon="ui-icon-gear">
+				<p:menuitem value="Przegladaj" outcome="/system/steak.xhtml"/>
+			</p:submenu>
+		</p:menubar>
+	</h:form>
+</ui:composition>

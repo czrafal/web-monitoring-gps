@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+		template="/template/template.xhtml">
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+	<h:form>
+	<p:panel id="mainPanel" header="Dystrybutor">
+	<h:panelGroup id="driverPanel"> 
+	<p:panelGrid columns="9">
+			<p:outputLabel value="Pojazd:" for="driver"/>
+			<p:selectCheckboxMenu id="driver" value="#{fuelList.selectedDriver}" filter="true" filterMatchMode="contains" showCheckbox="true">
+            	<f:selectItems value="#{fuelList.driversList}" var = "regNumber"  itemLabel="#{regNumber.regNum}"/> 
+        	</p:selectCheckboxMenu>
+        	<p:outputLabel value="Ilość:" for="driver"/>
+        	<p:inputMask id="input1" value="#{fuelList.tankDeclareDTO.litresdeclare}"/>
+       	<p:outputLabel for="dateNotification" value="Data tankowania:" />
+        <p:calendar id="dateNotification" value="#{fuelList.tankDeclareDTO.notificationdate}" pattern="MM/dd/yyyy HH:mm:ss" mask="true" />
+        <p:outputLabel for="dateAdd" value="Data wprowadzenia:"/>
+        <p:calendar id="dateAdd" value="#{fuelList.tankDeclareDTO.adddate}" pattern="dd-MM-yyyy"/>
+        <p:commandButton id="addFuelNotification" action="#{fuelList.saveTankDeclaration}" value="Zapisz" ajax="true"/>
+        </p:panelGrid>
+	</h:panelGroup>
+	</p:panel>
+	</h:form>
+	</ui:define>
+</ui:composition>

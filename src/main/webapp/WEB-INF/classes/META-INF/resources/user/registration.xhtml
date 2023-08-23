@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+<h:head>
+<title>Rejestracja użytkownika</title>
+</h:head>
+<body>
+<f:view>
+Rejestracja użytkownika:
+  <h:form>
+    <p:panelGrid columns="2">
+      <p:outputLabel value="Imię:"></p:outputLabel>
+      <p:inputText id="fName" value="#{userLogin.systemUser.FName}"></p:inputText>
+      
+      <p:outputLabel value="Nazwisko:"></p:outputLabel>
+      <p:inputText id="lName" value="#{userLogin.systemUser.LName}"></p:inputText>
+      
+      <p:outputLabel value="Login:"></p:outputLabel>
+      <p:inputText id="login" value="#{userLogin.systemUser.login}"></p:inputText>
+      
+      <p:outputLabel value="Hasło:"></p:outputLabel>
+      <p:inputText id="pass" value="#{userLogin.systemUser.pass}"></p:inputText>
+      
+      <p:outputLabel value="Firma:"></p:outputLabel>
+      <p:inputText id="company" value="#{userLogin.systemUser.company}"></p:inputText>
+      
+      <p:outputLabel value="Adres e-mail:"></p:outputLabel>
+      <p:inputText id="email" value="#{userLogin.systemUser.email}"></p:inputText>
+      
+      <p:outputLabel value="Państwo:"></p:outputLabel>
+      <p:inputText id="country" value="#{userLogin.systemUser.country}"></p:inputText>
+      <p:commandButton value="Zarejestruj" action="#{userLogin.registerSystemUser}"/>
+    </p:panelGrid>
+  </h:form>
+</f:view>
+</body>
+</ui:composition>
+</html> 

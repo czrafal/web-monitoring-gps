@@ -1,0 +1,149 @@
+<ui:composition xmlns="http://www.w3c.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				template="/template/template.xhtml">
+	<ui:define name="content">
+	<h:form>
+		<p:panel header="Nowy pojazd" toggleable="true">
+			<p:panelGrid columns="2" id="panel">
+				<f:facet name="header">Dane pojazdu</f:facet>
+				<p:outputLabel value="Numer rejestracyjny:"></p:outputLabel>
+				<p:inputText id="regnum" value="#{vehiclesController.vehicle.regNum}"></p:inputText>
+
+				<p:outputLabel value="Marka pojazdu:"></p:outputLabel>
+				<p:inputText id="brand" value="#{vehiclesController.vehicle.brand}"></p:inputText>
+
+				<p:outputLabel value="Model:"></p:outputLabel>
+				<p:inputText id="model" value="#{vehiclesController.vehicle.model}"></p:inputText>
+
+				<p:outputLabel value="Srednie spalanie:"></p:outputLabel>
+				<p:inputText id="country" value="#{vehiclesController.vehicle.combustion}"></p:inputText>
+
+				<p:outputLabel value="Data produkcji:"></p:outputLabel>
+				<p:calendar value="#{vehiclesController.vehicle.buyDate}" pattern="dd-MM-yyyy" navigator="true" id="popupButtonCal1" showOn="button" />
+
+				<p:outputLabel value="OC od:"></p:outputLabel>
+				<p:calendar value="#{vehiclesController.vehicle.OCDateStart}" pattern="dd-MM-yyyy" navigator="true" id="popupButtonCal2" showOn="button" />
+
+				<p:outputLabel value="OC do:"></p:outputLabel>
+				<p:calendar value="#{vehiclesController.vehicle.OCDateEnd}" pattern="dd-MM-yyyy" navigator="true" id="popupButtonCal3" showOn="button" />
+
+				<p:outputLabel value="Przeglad od:"></p:outputLabel>
+				<p:calendar value="#{vehiclesController.vehicle.checkStart}" pattern="dd-MM-yyyy" navigator="true" id="popupButtonCal4" showOn="button" />
+
+				<p:outputLabel value="Przeglad do:"></p:outputLabel>
+				<p:calendar value="#{vehiclesController.vehicle.checkEnd}" pattern="dd-MM-yyyy" navigator="true" id="popupButtonCal5" showOn="button" />
+
+				<p:outputLabel value="Lokalizator:"></p:outputLabel>
+				<p:selectOneMenu value="#{vehiclesController.selectedImei}" style="width:100%" converter="locatorConverter">
+					<f:selectItems value="#{vehiclesController.devicesList}" var="dev" itemValue="#{dev.imei}" itemLabel="#{dev.imei}"/>
+				</p:selectOneMenu>
+
+				<f:facet name="footer">
+					<p:commandButton value="Dodaj" action="#{vehiclesController.addVehicle}"/>
+				</f:facet>
+			</p:panelGrid>
+		</p:panel>
+	</h:form>
+
+<h:form id = "vehiclesForm">
+	<p:dataTable id="vehicles" var="vehicle" value="#{vehiclesController.vehicleList}" position="center" editable="true">
+		<f:facet name="header">Wszystkie pojazdy</f:facet>
+		<p:column headerText="Rejestracja">
+			<h:outputText value="#{vehicle.regNum}" />
+		</p:column>
+
+		<p:column headerText="Marka">
+			<h:outputText value="#{vehicle.brand}" />
+		</p:column>
+
+		<p:column headerText="Model">
+			<h:outputText value="#{vehicle.model}" />
+		</p:column>
+
+		<p:column headerText="Data zakupu">
+			<h:outputText value="#{vehiclesController.formatDate(vehicle.buyDate)}" />
+		</p:column>
+
+		<p:column headerText="OC od">
+			<h:outputText value="#{vehiclesController.formatDate(vehicle.OCDateStart)}" />
+		</p:column>
+
+		<p:column headerText="OC do">
+			<h:outputText value="#{vehiclesController.formatDate(vehicle.OCDateEnd)}" />
+		</p:column>
+
+		<p:column headerText="Przeglad od">
+			<h:outputText value="#{vehiclesController.formatDate(vehicle.checkStart)}" />
+		</p:column>
+
+		<p:column headerText="Przeglad do">
+			<h:outputText value="#{vehiclesController.formatDate(vehicle.checkEnd)}" />
+		</p:column>
+
+		<p:column headerText="Imei">
+			<h:outputText value="#{vehicle.gpsDevice.imei}"/>
+		</p:column>
+
+		<p:column headerText="Usuwanie">
+			<p:commandLink id="deleteLink" actionListener="#{vehiclesController.deleteVehicle(vehicle)}" styleClass="ui-icon ui-icon-trash" update="vehicles" />
+		</p:column>
+
+		<p:column headerText="Edycja" style="width:32px;text-align: center">
+			<p:commandButton update=":vehiclesForm:carDetail" process="@this" icon="ui-icon-edit" title="Wyświetl" oncomplete="PF('carDialog').show()" action="#{vehiclesController.editVehicle(vehicle)}"/>
+		</p:column>
+	</p:dataTable>
+
+	<p:dialog header="Car Info" widgetVar="carDialog" modal="false" resizable="false">
+		<p:outputPanel id="carDetail" style="text-align:center;">
+			<p:panelGrid  columns="2" rendered="#{not empty vehiclesController.selectedVehicle}">
+
+				<f:facet name="header">Dane pojazdu</f:facet>
+
+				<p:outputLabel value="Marka pojazdu:"></p:outputLabel>
+				<p:inputText id="brand" value="#{vehiclesController.selectedVehicle.brand}"></p:inputText>
+
+				<p:outputLabel value="Model:"></p:outputLabel>
+				<p:inputText id="model" value="#{vehiclesController.selectedVehicle.model}"></p:inputText>
+
+				<p:outputLabel value="Numer rejestracyjny:"></p:outputLabel>
+				<p:inputText id="regnum" value="#{vehiclesController.selectedVehicle.regNum}"></p:inputText>
+
+				<p:outputLabel value="Srednie spalanie:"></p:outputLabel>
+				<p:inputText id="country" value="#{vehiclesController.selectedVehicle.combustion}"></p:inputText>
+
+				<p:outputLabel value="Data produkcji:"></p:outputLabel>
+				<p:calendar value="#{vehiclesController.selectedVehicle.buyDate}" pattern="dd-MM-yyyy" navigator="true" id="popupButtonCal1" showOn="button" />
+
+				<p:outputLabel value="OC od:"></p:outputLabel>
+				<p:calendar value="#{vehiclesController.selectedVehicle.OCDateStart}" pattern="dd-MM-yyyy" navigator="true" id="popupButtonCal2" showOn="button" />
+
+				<p:outputLabel value="OC do:"></p:outputLabel>
+				<p:calendar value="#{vehiclesController.selectedVehicle.OCDateEnd}" pattern="dd-MM-yyyy" navigator="true" id="popupButtonCal3" showOn="button" />
+
+				<p:outputLabel value="Przeglad od:"></p:outputLabel>
+				<p:calendar value="#{vehiclesController.selectedVehicle.checkStart}" pattern="dd-MM-yyyy" navigator="true" id="popupButtonCal4" showOn="button" />
+
+				<p:outputLabel value="Przeglad do:"></p:outputLabel>
+				<p:calendar value="#{vehiclesController.selectedVehicle.checkEnd}" pattern="dd-MM-yyyy" navigator="true" id="popupButtonCal5" showOn="button" />
+
+				<p:outputLabel value="Lokalizator:"></p:outputLabel>
+				<p:selectOneMenu value="#{vehiclesController.selectedImei}" style="width:100%" converter="locatorConverter">
+					<f:selectItems value="#{vehiclesController.devicesList}" var="dev" itemValue="#{dev.imei}" itemLabel="#{dev.imei}"/>
+				</p:selectOneMenu>
+
+				<f:facet name="footer">
+					<p:commandButton value="Zapisz" action="#{vehiclesController.saveVehicleEdit}" oncomplete="PF('carDialog').hide()" update=":vehiclesForm:vehicles"/>
+					<p:commandButton value="Anuluj" action="#{vehiclesController.clearSelectedData}" oncomplete="PF('carDialog').hide()"/>
+				</f:facet>
+
+			</p:panelGrid>
+		</p:outputPanel>
+	</p:dialog>
+
+
+</h:form>
+	</ui:define>
+</ui:composition>

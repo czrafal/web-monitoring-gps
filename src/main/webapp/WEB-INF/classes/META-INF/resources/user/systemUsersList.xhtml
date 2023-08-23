@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+<title>Zarejestrowani użytkownicy systemu:</title>
+</h:head>
+<h:body>
+<f:view>
+          <h:form>
+            <p:dataTable id="users" var="user" value="#{userList.systemUserList}" style="width: 10%">
+                <p:column headerText="ID">
+                    #{user.idUser}
+                </p:column>
+                
+                <p:column headerText="Imię:">
+                    #{user.FName}
+                </p:column>
+                
+                <p:column headerText="Nazwisko">
+                    #{user.LName}
+                </p:column>
+                
+                <p:column headerText="Login">
+                    #{user.login}
+                </p:column>
+                
+                <p:column headerText="E-mail">
+                    #{user.email}
+                </p:column>
+            </p:dataTable>
+        </h:form>
+</f:view>
+</h:body>
+</html> 

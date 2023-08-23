@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:gis="http://gisfaces.com"
+	xmlns:p="http://primefaces.org/ui">
+	<h:outputStylesheet library="css" name="css/style.css"/>
+	<ui:include src="/components/tankFilter.xhtml"/>
+	<p:separator/>
+	
+		<p:dataTable id="tankTable" var="tank" value="#{fuelList.tankList}">
+        <f:facet name="header">Tankowania</f:facet>
+        <p:columnGroup type="header">
+            <p:row>
+            	<p:column headerText="Pojazd"/>
+                <p:column headerText="Data tankowania"/>
+                <p:column headerText="Ilość"/>
+                <p:column headerText="Mapa"/>
+            </p:row>
+        </p:columnGroup>
+        <p:subTable var="subTank" value="#{tank.tankList}">
+            <f:facet name="header">
+                <h:outputText value="#{tank.vehicle.regNum}"/>
+            </f:facet>
+            <p:column>
+                <h:outputText value="sdfg"/>
+            </p:column>
+            <p:column>
+                <h:outputText value="sdfg"/>
+            </p:column>
+            <p:column headerText="Czas">
+				<h:outputText value="test time"/>
+			</p:column>
+            <p:column>
+             	<p:commandButton id="actopmp" value="Trasa" ajax="true"/>
+            </p:column>
+        </p:subTable>
+    </p:dataTable>
+</ui:composition>

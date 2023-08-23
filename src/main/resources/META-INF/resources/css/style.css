@@ -1,0 +1,8 @@
+<style type="text/css">
+map {
+    width:500px;height:340px;border:1px solid grey;padding: 0 0 0 0;margin:10px !important;
+}
+.top-aligned-columns td{
+    vertical-align: top;
+}
+</style>

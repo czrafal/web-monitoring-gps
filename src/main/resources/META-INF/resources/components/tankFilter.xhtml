@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:gis="http://gisfaces.com"
+	xmlns:p="http://primefaces.org/ui">
+    <body>
+		<p:panel header="Filtr" toggleable="true">
+		<p:selectOneMenu id="dateFilter" value="#{fuelList.dateOption}" ajax="true">
+			<f:selectItem itemLabel="Data" itemValue="A"/>
+			<f:selectItem itemLabel="Zakres dat" itemValue="B"/>
+			<f:selectItem itemLabel="Miesiąc" itemValue="D"/>
+			<p:ajax update="dateRangePanel"/>
+		</p:selectOneMenu>
+		
+		<h:panelGroup id="dateRangePanel">
+			<p:outputLabel value="Data:" rendered="#{fuelList.dateOption eq 'A'}"/>
+		    <p:calendar value="#{fuelList.date}" pattern="dd/MM/yyyy" update="routes" rendered="#{fuelList.dateOption eq 'A'}"/>
+		
+			<p:outputLabel value="Data od:" rendered="#{fuelList.dateOption eq 'B'}"/>
+			<p:calendar value="#{fuelList.dateFrom}" pattern="dd/MM/yyyy" rendered="#{fuelList.dateOption eq 'B'}" locale="pl"/>
+			
+			<p:outputLabel value="Data do:" rendered="#{fuelList.dateOption eq 'B'}"/>
+			<p:calendar value="#{fuelList.dateTo}" pattern="dd/MM/yyyy" rendered="#{fuelList.dateOption eq 'B'}" locale="pl"/>
+		</h:panelGroup>
+		<p:commandButton id="search" value="Wyszukaj" action="#{fuelList.searchAction}" ajax="true" update="tankTable"/>
+	</p:panel>
+    </body>
+</html>

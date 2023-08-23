@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<h:outputStylesheet library="css" name="css/style.css"/>
+	<h:form id="myForm">
+            <ui:repeat value="#{myBean.entireList}" var="myRow" varStatus="myIndex">
+                <p:dataTable value="#{myRow}" var="myVar">                    
+                    <p:column headerText="Value">
+                        <h:outputText value="#{myVar}"/>
+                    </p:column>
+                </p:dataTable>
+            </ui:repeat>
+            <p:dialog widgetVar="myDialog">
+                <p:panelGrid id="display" columns="2">
+                    <h:outputText value="Selected"/>
+                    <h:outputText value="#{myBean.selected}"/>
+                </p:panelGrid>
+            </p:dialog>
+        </h:form>
+</ui:composition>

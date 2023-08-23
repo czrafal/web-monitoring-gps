@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/template/template.xhtml">
+	
+	<ui:define name="content">
+	<h:form id="routesForm">
+	<p:growl id="growl" showDetail="true" sticky="true" />
+		<p:panel id="mainPanel" header="Trasy">
+            <h:form id="payrollForm">
+		        <ui:include src="/components/filter.xhtml"/>
+            </h:form>
+	<p:dataTable id="routes" var="team" value="#{routesList.routesList}" sortBy="#{team.vehicle.regNum}">
+	 <p:headerRow>
+            <p:column colspan="4">
+                <h:outputText value="#{team.vehicle.regNum} #{routesList.formatDate(team.dateStart)}" />
+            </p:column>
+     </p:headerRow>
+            <p:column headerText="Początek trasy" style="text-align: center">
+                <h:outputText value="#{team.dateStart}" style="text-align: center">
+                	<f:convertDateTime pattern="yyyy-MM-dd hh:mm:ss" />
+                </h:outputText>
+            </p:column>
+           <p:column headerText="Koniec trasy" style="text-align: center">
+                <h:outputText value="#{team.dateEnd}" style="text-align: center">
+                	<f:convertDateTime pattern="yyyy-MM-dd hh:mm:ss" />
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Dystans" style="text-align: center">
+				<h:outputText value="#{team.distance}" />
+			</p:column>
+            <p:column headerText="Wyświetl" style="text-align: center">
+   			    <p:commandButton process="@this" icon="ui-icon-search" title="Wyświetl" ajax="false" action="#{routesList.action(team.IDRoutes)}"/>
+            </p:column>
+             <p:summaryRow>
+            <p:column colspan="2" style="text-align:right">
+                <h:outputText value="Suma:"/>
+            </p:column>
+            <p:column>
+                <h:outputText value="#{team.distanceSum}"/>
+            </p:column>
+                 <p:column/>
+        </p:summaryRow>
+    </p:dataTable>
+        <h3>Export</h3>
+    <h:commandLink>
+   		<h:outputText value="Export do XLS" />	
+        <p:dataExporter type="xls" target="routes" fileName="routes" pageOnly="true"/>
+    </h:commandLink>
+    <h:commandLink>
+   		<h:outputText value="Export do PDF" />	
+        <p:dataExporter type="pdf" target="routes" fileName="routes" pageOnly="true"/>
+    </h:commandLink>
+    </p:panel>
+    </h:form>
+	</ui:define>
+	</ui:composition>

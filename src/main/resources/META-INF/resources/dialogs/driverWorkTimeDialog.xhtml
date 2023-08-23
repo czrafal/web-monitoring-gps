@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:gis="http://gisfaces.com"
+	xmlns:p="http://primefaces.org/ui">
+    <body>
+	    <ui:composition>
+<p:dialog id="workTimeDialog" header="Szczegóły trasy" widgetVar="workTimeDialogVar" width="825" height="600">
+	
+		<h:panelGrid id="display" columns="2" cellpadding="4">
+			<f:facet name="header">Informacje o trasie</f:facet>
+				<p:outputLabel value="Kierowca:"/>
+				<h:outputText value="#{routesList.selectedRoute.driver.LName}"/>
+				<p:outputLabel value="Pojazd:"/>
+				<h:outputText value="#{routesList.selectedRoute.vehicle.regNum}"/>
+				<p:outputLabel value="Data rozpoczęcia:"/>
+				<h:outputText value="#{routesList.selectedRoute.dateStart}"/>
+				<p:outputLabel value="Data zakończenia:"/>
+				<h:outputText value="#{routesList.selectedRoute.dateEnd}"/>
+		</h:panelGrid>
+
+		    <p:panel header="Mapa" toggleable="true">
+				<h:panelGroup id="panel1" layout="block"></h:panelGroup>
+				<gis:map id="map1" mapPanel="panel1" background="streets" latitude="53.9688665" longitude="17.3145721" zoom="10">
+					<gis:service type="kml" url="https://sites.google.com/site/kmlroutes01/borowy-lipnica.kml"></gis:service>
+				</gis:map>
+        	</p:panel>
+        <p:separator/>
+		<p:panel header="Ustawienia" toggleable="true" collapsed="true">
+		<h:panelGrid columns="5">
+		<h:outputText value="Od godziny:" for="advanced"/>
+			<p:selectOneListbox id="advanced" value="#{routesList.chartView.timeStart}" filter="true" filterMatchMode="contains" showCheckbox="true" style="width:100px">
+            	<f:selectItems value="#{routesList.chartView.timeList}" /> 
+        	</p:selectOneListbox>
+        	<h:outputText value="Do godziny:" for="advanced2"/>
+        	<p:selectManyMenu id="advanced2" value="#{routesList.chartView.timeEnd}" filter="true" filterMatchMode="contains" showCheckbox="true" style="width:100px">
+            	<f:selectItems value="#{routesList.chartView.timeList}" /> 
+        	</p:selectManyMenu>
+        	<p:commandButton value="Ok" action="#{routesList.chartView.recreateAreaModel}" ajax="true" update="chart"/>
+        </h:panelGrid>
+        </p:panel>
+        <p:separator/>
+		<p:panel header="Wykres" id="chart">
+			<p:chart type="line" model="#{routesList.chartView.areaModel}" style="height:300px;width:570px"/>
+		</p:panel>
+		
+	</p:dialog>
+		    </ui:composition>
+    </body>
+</html>

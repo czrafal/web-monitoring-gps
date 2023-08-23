@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:gis="http://gisfaces.com"
+	xmlns:p="http://primefaces.org/ui">
+		<p:panel id="mainMapPanel" header="Mapa pojazdow" styleClass="gisfacesMapPanel" layout="block">
+		<h:panelGroup id="mymapdiv" styleClass="gisfacesMapPanel" layout="block">
+			<h:panelGroup id="navbar" layout="block" styleClass="gisfacesNavbarPanel"></h:panelGroup>
+		</h:panelGroup>
+		<gis:map mapPanel="mymapdiv" background="streets" latitude="53.972753" longitude="17.281934" zoom="15">
+			<gis:service type="graphics" model="#{routesList.geoipGraphicsModel}"></gis:service>
+		</gis:map>
+		</p:panel>
+        <p:separator/>
+		<p:panel header="Ustawienia" toggleable="true">
+		<h:panelGrid columns="5">
+		<h:outputText value="Od godziny:" for="advanced"/>
+			<p:selectOneListbox id="advanced" value="#{routesList.chartView.timeStart}" filter="true" filterMatchMode="contains" showCheckbox="true" style="width:100px">
+            	<f:selectItems value="#{routesList.chartView.timeList}" /> 
+        	</p:selectOneListbox>
+        	<h:outputText value="Do godziny:" for="advanced2"/>
+        	<p:selectManyMenu id="advanced2" value="#{routesList.chartView.timeEnd}" filter="true" filterMatchMode="contains" showCheckbox="true" style="width:100px">
+            	<f:selectItems value="#{routesList.chartView.timeList}" /> 
+        	</p:selectManyMenu>
+        	<p:commandButton value="Ok" action="#{routesList.chartView.recreateAreaModel}" ajax="true" update="chart"/>
+        </h:panelGrid>
+        </p:panel>
+        <p:separator/>
+		<p:panel header="Wykres" id="chart">
+			<p:chart type="line" model="#{routesList.chartView.areaModel}" style="height:300px;width:570px"/>
+		</p:panel>
+	</ui:composition>

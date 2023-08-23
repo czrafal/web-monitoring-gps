@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/template/template.xhtml">
+	<ui:define name="content">
+	<h:form>
+	<p:panel header="Lokalizatory" toggleable="true">
+		<p:panelGrid columns="2">
+			<f:facet name="header">Wprowadz dane</f:facet>
+
+			<p:outputLabel value="IMEI:"></p:outputLabel>
+			<p:inputText id="brand" value="#{locatorController.gpsDevice.imei}"></p:inputText>
+
+			<f:facet name="footer">
+				<p:commandButton value="Dodaj" action="#{locatorController.addLocator}" update="devices" />
+			</f:facet>
+		</p:panelGrid>
+	</p:panel>
+
+	<p:dataTable id="devices" var="device" value="#{locatorController.locatorList}" position="center" editable="true">
+		<f:facet name="header">Wszystkie pojazdy</f:facet>
+		<p:ajax event="rowEdit" listener="#{locatorController.onEdit}" />
+		<p:ajax event="rowEditCancel" listener="#{locatorController.onEditCancel}"/>
+		<p:column headerText="Imei">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{device.imei}" />
+				</f:facet>
+				<f:facet name="input">
+					<h:inputText value="#{device.imei}" />
+               </f:facet>
+			</p:cellEditor>
+		</p:column>
+		
+		<p:column headerText="Edycja">
+			<p:rowEditor />
+		</p:column>
+
+		<p:column headerText="Usuwanie">
+			<p:commandLink id="deleteLink" actionListener="#{locatorController.deleteDevice(device)}" styleClass="ui-icon ui-icon-trash" update="devices" />
+		</p:column>
+	</p:dataTable>
+</h:form>
+	</ui:define>
+</ui:composition>

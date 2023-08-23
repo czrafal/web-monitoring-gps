@@ -1,0 +1,40 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<p:panel header="Nowy kierowca" toggleable="true" widgetVar="panel">  
+      <p:panelGrid columns="2">
+      <f:facet name="header">Dane kierowcy</f:facet>  
+
+      <p:outputLabel value="Imię:"/>
+      <p:inputText id="fname" value="#{driverAndVehicleList.newDriver.FName}"/>
+      
+      <p:outputLabel value="Nazwisko:"/>
+      <p:inputText id="lname" value="#{driverAndVehicleList.newDriver.LName}"/>
+      
+      <p:outputLabel value="Numer telefonu:"/>
+      <p:inputText id="phonenumber" value="#{driverAndVehicleList.newDriver.phone}"/>
+
+      <p:outputLabel value="Numer rejestracyjny:"/>
+      
+      <h:selectOneMenu value="#{driverAndVehicleList.selectedVehicle}" converter="driverAndVehicleConv">  
+         <f:selectItems value="#{driverAndVehicleList.vehicleList}" var="vehicle" itemValue="#{vehicle}" itemLabel="#{vehicle.regNum}" />  
+           <p:ajax update="marka,model1"/>
+         </h:selectOneMenu>  
+      
+      <p:outputLabel value="Marka:"/>
+      <p:outputLabel id="marka" value="#{driverAndVehicleList.selectedVehicle.brand}"/>
+      
+      <p:outputLabel value="Model:"/>
+      <p:outputLabel id="model1" value="#{driverAndVehicleList.selectedVehicle.model}"/>
+
+        <f:facet name="footer"> 
+      	<p:commandButton value="Dodaj kierowcę" action="#{driverAndVehicleList.addNewDriver}" icon="ui-icon-check"/>
+      	<p:commandButton value="Dodaj pojazd" type="button" onclick="dlg.show()"/>   
+
+      </f:facet>
+    </p:panelGrid>
+</p:panel>
+</ui:composition>

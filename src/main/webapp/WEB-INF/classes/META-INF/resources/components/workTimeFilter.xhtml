@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:gis="http://gisfaces.com"
+	xmlns:p="http://primefaces.org/ui">
+    <body>
+		<p:panel header="Filtr" toggleable="true">
+		<p:panelGrid columns="7">
+		<p:selectOneMenu id="dateFilter" value="#{driverWorkTimeList.dateOption}" ajax="true">
+			<f:selectItem itemLabel="Data" itemValue="DATE"/>
+			<f:selectItem itemLabel="Zakres dat" itemValue="DATERANGE"/>
+			<f:selectItem itemLabel="Miesiąc" itemValue="MONTH"/>
+			<p:ajax update="perfbyselection dateRangePanel"/>
+		</p:selectOneMenu>
+		
+		<h:panelGroup id="dateRangePanel">
+			<p:outputLabel for="option" value="Data:" rendered="#{driverWorkTimeList.dateOption eq 'DATE'}"/>
+		    <p:calendar value="#{driverWorkTimeList.date}" pattern="dd/MM/yyyy" update="routes" rendered="#{driverWorkTimeList.dateOption eq 'DATE'}">
+		    </p:calendar>
+		    
+			<p:outputLabel for="option" value="Data od:" rendered="#{driverWorkTimeList.dateOption eq 'DATERANGE'}"/>
+			<p:calendar value="#{driverWorkTimeList.dateFrom}" pattern="dd/MM/yyyy" rendered="#{driverWorkTimeList.dateOption eq 'DATERANGE'}" locale="pl">
+		    </p:calendar>
+			
+			<p:outputLabel for="option" value="Data do:" rendered="#{driverWorkTimeList.dateOption eq 'DATERANGE'}"/>
+			<p:calendar value="#{driverWorkTimeList.dateTo}" pattern="dd/MM/yyyy" rendered="#{driverWorkTimeList.dateOption eq 'DATERANGE'}" locale="pl">
+		    </p:calendar>
+		    <p:selectOneMenu id="monthMenu" value="#{driverWorkTimeList.selectedMonth}" rendered="#{driverWorkTimeList.dateOption eq 'MONTH'}">
+            <f:selectItem itemLabel="Wybierz miesiac" itemValue="" />
+                <f:selectItems value="#{routesList.monthsList}"/>
+            </p:selectOneMenu>
+            
+            <p:selectOneMenu id="yearMenu" value="#{driverWorkTimeList.selectedYear}" rendered="#{driverWorkTimeList.dateOption eq 'MONTH'}">
+            <f:selectItem itemLabel="Wybierz rok" itemValue="" />
+                <f:selectItems value="#{routesList.yearsList}"/>
+            </p:selectOneMenu>
+		</h:panelGroup>
+		
+		<h:outputText value="Szczegółowo" for="detail"/>
+        <p:selectBooleanCheckbox id="detail" value="#{driverWorkTimeList.detail}"/>
+		<p:outputLabel for="option" value="Wyszukiwanie wg:" />
+		<p:selectOneMenu id="option" value="#{driverWorkTimeList.typeOption}" ajax="true" for="search">
+			<f:selectItem itemLabel="Wszystkie trasy" itemValue="ALLROUTE"/>
+			<f:selectItem itemLabel="Pojazd" itemValue="VEHICLE"/>
+			<f:ajax event="change" render="perfbyselection dateRangePanel"/>
+		</p:selectOneMenu>
+		
+		<h:panelGroup id="perfbyselection">
+			<h:outputText value="Numer rejestracji:" rendered="#{driverWorkTimeList.typeOption eq 'VEHICLE'}" />
+				<p:inputText id="fieldVReg" value="#{driverWorkTimeList.searchDate}" rendered="#{driverWorkTimeList.typeOption eq 'VEHICLE'}" />
+			<h:outputText value="Nazwisko:" rendered="#{driverWorkTimeList.typeOption eq 'D'}" />
+				<p:inputText id="fieldDDriver" value="#{driverWorkTimeList.searchDate}" rendered="#{driverWorkTimeList.typeOption eq 'D'}" />
+			<p:commandButton id="search" value="Wyszukaj" update="tablePanel" action="#{driverWorkTimeList.searchAction}" ajax="true"/>
+		</h:panelGroup>
+		</p:panelGrid>
+	</p:panel>
+    </body>
+</html>

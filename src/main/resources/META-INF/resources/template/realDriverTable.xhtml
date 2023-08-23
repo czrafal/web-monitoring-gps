@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+<style type="text/css">
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		.noHeader.ui-datatable table thead tr {
+			display: none;
+		}
+		.noBorder.ui-datatable tbody td {
+   			border: 0 none;
+		}
+		.ui-panelgrid td, .ui-panelgrid tr {
+    		border-style: none !important;
+    		background: none !important;
+		}
+</style>
+</h:head>
+<h:body>
+<h:form id="form">
+<p:growl id="msgs" showDetail="true" />
+<p:poll interval="5" update="realVehicles" listener="#{realVehiclesController.vehicleListListener}"/>
+<p:dataTable id="realVehicles" var="vehicleItem" value="#{realVehiclesController.vehicles}" position="center" editable="false" selectionMode="single" selection="#{realVehiclesController.selectedVehicle}" rowKey="#{vehicleItem.vehicle.IDVehicle}" styleClass="noBorder, noHeader">
+	<p:ajax event="rowSelect" listener="#{realVehiclesController.onRowSelect}" update="@form"/>
+					<p:column headerText="Status" style="width:25%;">
+							<h:graphicImage value="/images/green_baloon.png" width="48" height="48" cache="false" rendered="#{vehicleItem.position.getVehicleStatusAsString() eq 'IGNITION_ON'}"/>	
+							<h:graphicImage value="/images/red_baloon.png" width="48" height="48" cache="false" rendered="#{vehicleItem.position == null or vehicleItem.position.getVehicleStatusAsString() eq 'IGNITION_OFF' or vehicleItem.position.getVehicleStatusAsString() == 'NONE'}"/>
+					</p:column>
+					<p:column headerText="Pojazdy">
+						<p:panelGrid columns="2">
+							<h:outputText value="Pojazd:"/>
+							<h:outputText value="#{vehicleItem.vehicle.regNum}"/>
+
+							<h:outputText value="Paliwo:"/>
+							<h:outputText value="#{vehicleItem.gas}"/>
+						</p:panelGrid>
+					</p:column>
+					<p:column headerText="Trasa" style="width:30px; text-align: center">
+					<p:selectBooleanCheckbox id="watchCheckBoxes" value="#{vehicleItem.watchRoute}" align="center">
+						<p:ajax update="realVehicles, @form" listener="#{realVehiclesController.updateVehicleCacheWatchRoute(vehicleItem)}" />
+    				</p:selectBooleanCheckbox>
+					</p:column>
+</p:dataTable>				
+</h:form>
+</h:body>
+</ui:composition>

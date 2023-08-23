@@ -1,0 +1,21 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<p:dataTable id="realVehicles" var="vehicleItem" value="#{vehicleListReal.vehicleList}" position="center" editable="false" selectionMode="single" selection="#{vehicleListReal.selectedCars}" rowKey="#{vehicleItem.IDDriver}">>
+					<p:column style="width:25%;">
+						<p:graphicImage value="/images/ciezarowka.png" width="64" height="42" />
+					</p:column>
+					<p:column>
+						<p:panelGrid columns="2">
+							<h:outputText value="Kierowca:" />
+							<h:outputText value="#{vehicleItem.LName}" />
+
+							<h:outputText value="Paliwo:" />
+							<h:outputText value="#{vehicleItem.gas}" />
+						</p:panelGrid>
+					</p:column>
+				</p:dataTable>
+</ui:composition>

@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<style type="text/css">
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		.noHeader.ui-datatable table thead tr {
+			display: none;
+		}
+		.ui-panelgrid td, .ui-panelgrid tr
+		{
+			border-style: none !important;
+		}
+</style>
+	</h:head>
+<h:form id="form">
+<p:dataTable id="realVehicles" var="vehicleItem" value="#{realVehiclesController.vehicles}" position="center" editable="false" styleClass="noHeader">
+
+					<p:column headerText="Status" style="width:25%;">
+						<p:graphicImage value="/images/red_baloon.png" width="48" height="48" />
+					</p:column>
+					<p:column headerText="Pojazdy">
+						<p:panelGrid columns="2">
+							<h:outputText value="Pojazd:" />
+							<h:outputText value="#{vehicleItem.vehicle.regNum}" />
+
+							<h:outputText value="Paliwo:" />
+							<h:outputText value="#{vehicleItem.gas}" />
+						</p:panelGrid>
+					</p:column>
+				</p:dataTable>
+				
+</h:form>
+</ui:composition>

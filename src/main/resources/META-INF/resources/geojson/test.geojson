@@ -1,0 +1,10 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [52.401000, 16.920805]
+  },
+  "properties": {
+    "name": "Dinagat Islands"
+  }
+}

@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:gis="http://gisfaces.com"
+	xmlns:p="http://primefaces.org/ui"
+	template="/template/template.xhtml">
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+	<h:form>
+	<!--  <h:outputStylesheet library="css" name="css/style.css"/>
+	<h:outputScript name="charts/charts.js" library="primefaces"/>
+	<h:outputStylesheet name="charts/charts.css" library="primefaces"/>
+	-->
+	<p:panel id="mainPanel" header="Czas pracy">
+	<ui:include src="/components/workTimeFilter.xhtml"/>
+	<p:separator/>
+	<h:panelGroup id="tablePanel">
+		<p:dataTable id="routes" var="team" value="#{driverWorkTimeList.routesList}" rendered="#{driverWorkTimeList.detail == true}">
+        <f:facet name="header">Czas pracy</f:facet>
+        <p:columnGroup type="header">
+            <p:row>
+                <p:column headerText="Data początkowa"/>
+                <p:column headerText="Data końcowa"/>
+                <p:column headerText="Czas"/>
+                <p:column headerText="Dystans" sortBy="#{stats.distanceSum}"/>
+                <p:column headerText="Operacje"/>
+            </p:row>
+        </p:columnGroup>
+        <p:subTable var="stats" value="#{team.routeList}">
+            <f:facet name="header">
+                <h:outputText value="#{team.vehicle.regNum}"/>
+            </f:facet>
+            <p:column>
+                <h:outputText value="#{stats.dateStart}">
+                	<f:convertDateTime pattern="yyyy-MM-dd hh:mm:ss" />
+                </h:outputText>
+            </p:column>
+            <p:column>
+                <h:outputText value="#{stats.dateEnd}">
+                     <f:convertDateTime pattern="yyyy-MM-dd hh:mm:ss" />
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Czas">
+				<h:outputText value="#{stats.timePeriodString}"/>
+			</p:column>
+            <p:column headerText="Dystans">
+				<h:outputText value="#{stats.distanceSum}"/>
+			</p:column>
+            <p:column>
+             	<p:commandButton id="actopmp" value="Trasa" style="text-align:center" onclick="PF('workTimeDialogVar').show();" ajax="true"/>
+            </p:column>
+                    <p:columnGroup type="footer">
+                <p:row>
+    				<p:column colspan="3" footerText="Suma: " style="text-align:right"/>
+                    <p:column footerText="#{team.distanceSum}" />
+            </p:row>
+            </p:columnGroup>
+        </p:subTable>
+
+    </p:dataTable>
+    
+    <p:dataTable id="drivers" var="driver" value="#{driverWorkTimeList.workTimeDTOList}" position="center" rendered="#{driverWorkTimeList.detail == false}">
+    <f:facet name="header">Czas pracy</f:facet>
+                <p:column headerText="Pojazd">
+                    <h:outputText value="#{driver.vehicle.regNum}"/>
+                </p:column>
+                <p:column headerText="Data początkowa">
+                    <h:outputText value="#{driver.dateStart}"/>
+                </p:column>
+                <p:column headerText="Data końcowa">
+                    <h:outputText value="#{driver.dateEnd}"/>
+                </p:column>
+                 <p:column headerText="Dystans" sortBy="#{driver.distanceSum}">
+                    <h:outputText value="#{driver.distanceSum}"/>
+                </p:column>
+                            <p:summaryRow>
+                    <p:column colspan="3">
+                    	<h:outputText value="Totals: " style="text-align:right"/>
+                    </p:column>
+                    <p:column>
+                    	<h:outputText value="#{driver.distanceSum}"/>
+                    </p:column>
+            </p:summaryRow>
+     </p:dataTable>
+    </h:panelGroup>
+    </p:panel>
+    </h:form>
+    </ui:define>
+</ui:composition>

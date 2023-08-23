@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:h="http://java.sun.com/jsf/html"  
+    xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:gis="http://gisfaces.com"
+    xmlns:p="http://primefaces.org/ui">  
+    <h:head>  
+    </h:head>  
+    <h:body>  
+        <ui:composition>
+
+	<ui:define name="content">
+		<h:panelGroup id="mymapdiv" styleClass="gisfacesMapPanel" layout="block">
+			<h:panelGroup id="navbar" layout="block" styleClass="gisfacesNavbarPanel"></h:panelGroup>
+		</h:panelGroup>
+		<gis:map mapPanel="mymapdiv" background="streets" latitude="53.972753" longitude="17.281934" zoom="15">
+			<gis:service type="graphics" model="#{mapBean.realGraphicsModel}"></gis:service>
+		</gis:map>
+	</ui:define>
+       </ui:composition>        
+    </h:body>  
+</html> 

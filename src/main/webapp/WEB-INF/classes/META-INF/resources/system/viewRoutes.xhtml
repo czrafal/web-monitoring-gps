@@ -1,0 +1,173 @@
+
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:gis="http://gisfaces.com"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<!-- <h:outputScript library="theme1" name="js/jquery.ba-bbq.min.js" /> 
+    <h:outputScript library="theme1" name="js/main.js" />
+     -->  
+	<h:outputScript library="javax.faces" name="jsf.js" target="head" />
+	
+	<title>System monitoringu pojazdow</title>
+	<style type="text/css">
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+}
+
+.ui-widget, .ui-widget .ui-widget {
+	font-size: 90% !important;
+}
+
+.ui-panelgrid td, .ui-panelgrid tr
+{
+    border-style: none !important
+}
+</style>
+
+</h:head>
+<h:body>
+	<h:form>
+	
+		<p:layout fullPage="true" id="allLayout">
+			<p:layoutUnit position="north" size="50" resizable="false" closable="false" collapsible="true" spacing="0">
+			<p:menubar rendered="true" style="border: none; z-index: 9998; overflow: visible;">
+			<p:submenu label="Zdarzenia">
+						<p:menuitem value="Przegladaj" update="mainPanel" action="#{navigationBean.doNav}" immediate="true">
+							<f:param name="page" value="../system/newDriver" />
+							<f:param name="header" value="Nowy kierowca" />
+						</p:menuitem>
+
+					</p:submenu>
+					<p:submenu label="Pojazdy">
+						<p:menuitem value="Nowy pojazd" update="mainPanel" action="#{navigationBean.doNav}" immediate="true">
+							<f:param name="page" value="../system/newVehicle" />
+							<f:param name="header" value="Nowy pojazd" />
+						</p:menuitem>
+
+						<p:menuitem value="Przeglady pojazdow" update="mainPanel" action="#{navigationBean.doNav}" immediate="true">
+							<f:param name="page" value="../system/allVehicles" />
+							<f:param name="header" value="Przeglady pojazdow" />
+						</p:menuitem>
+					</p:submenu>
+
+					<p:submenu label="Kierowcy">
+						<p:menuitem value="Nowy kierowca" outcome="/system/newDriver.xhtml">
+							<f:param name="page" value="../system/newDriver" />
+							<f:param name="header" value="Nowy kierowca" />
+						</p:menuitem>
+
+						<p:menuitem value="Zarzadzaj kierowcami" update="mainPanel" action="#{navigationBean.doNav}" immediate="true">
+							<f:param name="page" value="../system/allDrivers" />
+							<f:param name="header" value="Wszyscy kierowcy" />
+						</p:menuitem>
+
+						<p:menuitem value="Czas pracy" update="mainPanel" action="#{navigationBean.doNav}" immediate="true">
+							<f:param name="page" value="../system/driverWorkTime" />
+							<f:param name="header" value="Czas pracy" />
+						</p:menuitem>
+					</p:submenu>
+
+					<p:submenu label="Trasy">
+						<p:menuitem value="Przegladaj" outcome="/system/viewRoutes.xhtml">
+							<f:param name="page" value="../system/viewRoutes" />
+							<f:param name="header" value="Trasy" />
+						</p:menuitem>
+						<p:menuitem value="Tryb rzeczywisty" update="mainPanel" action="#{navigationBean.doNav}" immediate="true">
+							<f:param name="page" value="../system/area"/>
+							<f:param name="header" value="Mapa" />
+						</p:menuitem>
+						<p:menuitem value="Test" action="#{navigationBean.doNav}" immediate="true">
+							<f:param name="page" value="../system/graphicsTest"/>
+							<f:param name="header" value="Test mapy" />
+						</p:menuitem>
+					</p:submenu>
+					
+					<p:submenu label="Paliwo">
+						<p:menuitem value="Dystrybutor" update="mainPanel" action="#{navigationBean.doNav}" immediate="true">
+							<f:param name="page" value="../system/distributorView" />
+							<f:param name="header" value="Dystrybutor" />
+						</p:menuitem>
+						<p:menuitem value="Tankowania" update="mainPanel" action="#{navigationBean.doNav}" immediate="true">
+							<f:param name="page" value="../system/tanksView" />
+							<f:param name="header" value="Tankowania" />
+						</p:menuitem>
+					</p:submenu>
+					
+					<p:submenu label="Ustawienia" icon="ui-icon-gear">
+						<p:menuitem value="Przegladaj" outcome="/system/steak.xhtml">
+							<f:param name="page" value="../system/myTestView" />
+							<f:param name="header" value="Nowy kierowca" />
+						</p:menuitem>
+					</p:submenu>
+				</p:menubar>
+			
+			</p:layoutUnit>
+
+			<p:layoutUnit position="west" size="280" header="Pojazdy" id="leftPanel" resizable="true" closable="true" collapsible="true" spacing="0">
+				<p:dataTable id="realVehicles" var="vehicleItem" value="#{vehicleListReal.vehicleList}" position="center" editable="false" selectionMode="single" selection="#{vehicleListReal.selectedCars}" rowKey="#{vehicleItem.IDDriver}">>
+					<p:column style="width:25%;">
+						<p:graphicImage value="/images/ciezarowka.png" width="64" height="42" />
+					</p:column>
+					<p:column>
+						<p:panelGrid columns="2">
+							<h:outputText value="Kierowca:" />
+							<h:outputText value="#{vehicleItem.LName}" />
+
+							<h:outputText value="Paliwo:" />
+							<h:outputText value="#{vehicleItem.gas}" />
+						</p:panelGrid>
+					</p:column>
+				</p:dataTable>
+			</p:layoutUnit>
+
+			<p:layoutUnit id="layout_center" position="center">
+				<p:panel id="mainPanel" header="#{navigationBean.headerName}">
+
+	<ui:include src="/components/filter.xhtml"/>
+	<p:separator/>
+	<ui:include src="/dialogs/routeDialog.xhtml"/>
+	<h:panelGroup id="tablePanel">
+	<p:dataTable id="routes" var="team" value="#{routesList.routesList}">
+        <f:facet name="header">Trasy</f:facet>
+        <p:columnGroup type="header">
+            <p:row>
+                <p:column headerText="Data poczatkowa"/>
+                <p:column headerText="Data koncowa"/>
+                <p:column headerText="Dystans"/>
+                <p:column headerText="Operacja"/>
+            </p:row>
+        </p:columnGroup>
+        <p:subTable var="stats" value="#{team.routeList}">
+            <f:facet name="header">
+                <h:outputText value="#{team.driver.LName}" />
+            </f:facet>
+            <p:column>
+                <h:outputText value="#{stats.dateStart}" />
+            </p:column>
+            <p:column>
+                <h:outputText value="#{stats.dateEnd}" />
+            </p:column>
+            <p:column headerText="Dystans">
+				<h:outputText value="#{stats.distanceSum}" />
+			</p:column>
+            <p:column>
+             	<p:commandButton id="actopmp" value="Trasa" onclick="PF('workTimeDialogVar').show();" ajax="true"/>
+            </p:column>
+        </p:subTable>
+    </p:dataTable>
+    </h:panelGroup>
+				</p:panel>
+			</p:layoutUnit>
+		</p:layout>
+	</h:form>
+</h:body>
+</html>
+

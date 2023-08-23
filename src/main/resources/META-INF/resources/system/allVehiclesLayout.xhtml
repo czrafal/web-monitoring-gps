@@ -1,0 +1,46 @@
+<ui:composition
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:p="http://primefaces.org/ui"
+ 	 template="/template/template.xhtml">
+<h:body>
+     <ui:define name="content">
+     <f:view>
+		<h:form>
+			<p:dataTable id="vehicles" var="vehicle"
+				value="#{vehicleList.vehicleList}" style="width: 10%">
+				
+				<p:column headerText="Marka">
+                  #{vehicle.brand}
+                </p:column>
+
+				<p:column headerText="Model">
+                 #{vehicle.model}
+                </p:column>
+
+				<p:column headerText="Data produkcji">
+                     #{vehicle.buyDate}
+                </p:column>
+
+				<p:column headerText="�rednie spalanie">
+                   #{vehicle.combustion}
+                </p:column>
+
+				<p:column headerText="Pojemno�� zbiornika">
+                   #{vehicle.fuel}
+                </p:column>
+
+				<p:column headerText="Numer rejestracyjny">
+                  #{vehicle.regNumber}
+                </p:column>
+			</p:dataTable>
+		</h:form>
+		
+	</f:view>
+	     </ui:define>
+</h:body>
+</ui:composition>
+
+</html>

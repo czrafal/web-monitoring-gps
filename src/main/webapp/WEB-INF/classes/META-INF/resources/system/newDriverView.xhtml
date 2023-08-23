@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/template/template.xhtml">
+	<ui:define name="content">
+	<h:form>
+      <p:panel header="Nowy kierowca" toggleable="true" widgetVar="panel">
+      <p:panelGrid columns="2">
+      <f:facet name="header">Dane kierowcy</f:facet>  
+
+      <p:outputLabel value="Imię:"/>
+      <p:inputText id="fname" value="#{driverAndVehicleController.newDriver.FName}"/>
+      
+      <p:outputLabel value="Nazwisko:"/>
+      <p:inputText id="lname" value="#{driverAndVehicleController.newDriver.LName}"/>
+      
+      <p:outputLabel value="Numer telefonu:"/>
+      <p:inputText id="phonenumber" value="#{driverAndVehicleController.newDriver.phone}"/>
+
+      <p:outputLabel value="Numer rejestracyjny:"/>
+      
+      <h:selectOneMenu value="#{driverAndVehicleController.selectedVehicle}" converter="driverAndVehicleConv">
+         <f:selectItems value="#{driverAndVehicleController.vehicleList}" var="vehicle" itemValue="#{vehicle}" itemLabel="#{vehicle.regNum}" />
+           <p:ajax update="marka,model1"/>
+         </h:selectOneMenu>  
+      
+      <p:outputLabel value="Marka:"/>
+      <p:outputLabel id="marka" value="#{driverAndVehicleController.selectedVehicle.brand}"/>
+      
+      <p:outputLabel value="Model:"/>
+      <p:outputLabel id="model1" value="#{driverAndVehicleController.selectedVehicle.model}"/>
+
+        <f:facet name="footer"> 
+      	    <p:commandButton value="Dodaj kierowcę" action="#{driverAndVehicleController.addNewDriver}" icon="ui-icon-check"/>
+      	    <p:commandButton value="Dodaj pojazd" type="button" onclick="dlg.show()"/>
+      </f:facet>
+    </p:panelGrid>
+</p:panel>
+
+            <p:dataTable id="drivers" var="driver" value="#{driverAndVehicleController.driverList}" position="center">
+                <f:facet name="header">Kierowcy</f:facet>
+                <p:column headerText="ID kierowcy">
+                    #{driver.IDDriver}
+                </p:column>
+                
+                <p:column headerText="Imię">
+                    #{driver.FName}
+                </p:column>
+                
+                <p:column headerText="Nazwisko">
+                    #{driver.LName}
+                </p:column>
+                
+                <p:column headerText="Numer telefonu">
+                    #{driver.phone}
+                </p:column>
+            </p:dataTable>
+
+	</h:form>
+	</ui:define>
+</ui:composition>

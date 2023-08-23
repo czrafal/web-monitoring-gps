@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:gis="http://gisfaces.com"
+	xmlns:p="http://primefaces.org/ui">
+    <h:body>
+		<p:panel header="Filtr" toggleable="true">
+		<p:panelGrid columns="7">
+		<p:selectOneMenu id="dateFilter" value="#{routesList.dateOption}" ajax="true">
+			<f:selectItem itemLabel="Data" itemValue="DATE"/>
+			<f:selectItem itemLabel="Zakres dat" itemValue="DATERANGE"/>
+			<f:selectItem itemLabel="Miesiąc" itemValue="MONTH"/>
+			<p:ajax update="perfbyselection dateRangePanel"/>
+		</p:selectOneMenu>
+		
+		<h:panelGroup id="dateRangePanel">
+			<p:outputLabel for="option" value="Data:" rendered="#{routesList.dateOption eq 'DATE'}"/>
+		    	<p:calendar value="#{routesList.date}" pattern="dd/MM/yyyy" update="routes" rendered="#{routesList.dateOption eq 'DATE'}">
+		    </p:calendar>
+		    
+			<p:outputLabel for="option" value="Data od:" rendered="#{routesList.dateOption eq 'DATERANGE'}"/>
+				<p:calendar value="#{routesList.dateFrom}" pattern="dd/MM/yyyy" rendered="#{routesList.dateOption eq 'DATERANGE'}">
+		    </p:calendar>
+			
+			<p:outputLabel for="option" value="Data do:" rendered="#{routesList.dateOption eq 'DATERANGE'}"/>
+				<p:calendar value="#{routesList.dateTo}" pattern="dd/MM/yyyy" rendered="#{routesList.dateOption eq 'DATERANGE'}">
+		    </p:calendar>
+		   
+            <p:selectOneMenu id="monthMenu" value="#{routesList.selectedMonth}" rendered="#{routesList.dateOption eq 'MONTH'}">
+            <f:selectItem itemLabel="Wybierz miesiac" itemValue="" />
+                <f:selectItems value="#{routesList.monthsList}"/>
+            </p:selectOneMenu>
+            
+            <p:selectOneMenu id="yearMenu" value="#{routesList.selectedYear}" rendered="#{routesList.dateOption eq 'MONTH'}">
+            <f:selectItem itemLabel="Wybierz rok" itemValue="" />
+                <f:selectItems value="#{routesList.yearsList}"/>
+            </p:selectOneMenu>
+		</h:panelGroup>
+		
+		<h:outputText value="Szczegółowo" />
+        <p:selectBooleanCheckbox value="#{routesList.detail}">
+         <p:ajax update="payrollForm"/>
+        </p:selectBooleanCheckbox>
+		<p:outputLabel for="option" value="Wyszukiwanie wg:" />
+		<p:selectOneMenu id="option" value="#{routesList.typeOption}" ajax="true" for="search">
+			<f:selectItem itemLabel="Wszystkie trasy" itemValue="ALLROUTE"/>
+			<f:selectItem itemLabel="Pojazd" itemValue="VEHICLE"/>
+			<f:selectItem itemLabel="Kierowca" itemValue="DRIVER"/>
+			<f:ajax event="change" render="perfbyselection"/>
+		</p:selectOneMenu>
+		
+		<h:panelGroup id="perfbyselection">
+		<p:outputLabel value="Pojazd:" for="driver" rendered="#{routesList.typeOption eq 'DRIVER'}"/>
+			<p:selectCheckboxMenu id="driver" value="#{fuelList.selectedDriver}" filter="true" filterMatchMode="contains" showCheckbox="true" rendered="#{routesList.typeOption eq 'VEHICLE'}">
+            	<f:selectItems value="#{fuelList.driversList}" var = "regNumber"  itemLabel="#{regNumber.regNum}"/> 
+        	</p:selectCheckboxMenu>
+			<h:outputText value="Nazwisko:" rendered="#{routesList.typeOption eq 'DRIVER'}"/>
+				<p:inputText id="fieldDDriver" value="#{routesList.searchDate}" rendered="#{routesList.typeOption eq 'DRIVER'}"/>
+			<p:commandButton id="search" value="Wyszukaj" update=":routesForm:routes" action="#{routesList.searchAction}" ajax="true"/>
+		</h:panelGroup>
+		</p:panelGrid>
+	</p:panel>
+    </h:body>
+</html>

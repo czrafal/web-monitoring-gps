@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:h="http://java.sun.com/jsf/html"  
+    xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">  
+    <h:head>  
+    </h:head>  
+    <h:body>  
+        <ui:composition>
+
+	<h:panelGroup id="tablePanel">
+	<p:dataTable id="routes" var="team" value="#{routesList.routesList}">
+        <f:facet name="header">Trasy</f:facet>
+        <p:columnGroup type="header">
+            <p:row>
+                <p:column headerText="Data początkowa"/>
+                <p:column headerText="Data końcowa"/>
+                <p:column headerText="Dystans"/>
+                <p:column headerText="Operacja"/>
+            </p:row>
+        </p:columnGroup>
+        <p:subTable var="stats" value="#{team.routeList}">
+            <f:facet name="header">
+                <h:outputText value="#{team.driver.LName}" />
+            </f:facet>
+            <p:column>
+                <h:outputText value="#{stats.dateStart}" />
+            </p:column>
+            <p:column>
+                <h:outputText value="#{stats.dateEnd}" />
+            </p:column>
+            <p:column headerText="Dystans">
+				<h:outputText value="#{stats.distanceSum}" />
+			</p:column>
+        </p:subTable>
+    </p:dataTable>
+    </h:panelGroup>
+       </ui:composition>        
+    </h:body>  
+</html> 
