@@ -59,7 +59,10 @@ public class WebApplication {
 		};
 	}*/
 
-	@SuppressWarnings({"Convert2Lambda", "java:S1604"})
+
+	// uncomment for start tcp server
+
+/*	@SuppressWarnings({"Convert2Lambda", "java:S1604"})
 	@Bean
 	public ApplicationListener<ApplicationReadyEvent> readyEventApplicationListener() {
 		return new ApplicationListener<ApplicationReadyEvent>() {
@@ -68,5 +71,5 @@ public class WebApplication {
 				tcpServer.start();
 			}
 		};
-	}
+	}*/
 }
